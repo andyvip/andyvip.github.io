@@ -402,6 +402,162 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/11/23/android/常用类/atomic类/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="andy">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.gif">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="andy">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="andy" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/11/23/android/常用类/atomic类/" itemprop="url">
+                  atomic类
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-11-23T23:03:00+08:00">
+                2016-11-23
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/android/" itemprop="url" rel="index">
+                    <span itemprop="name">android</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/android/api/" itemprop="url" rel="index">
+                    <span itemprop="name">api</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>#atomic是什么</p>
+<p>#atomic的一个例子<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">atomic_uint_least32_t</span> <span class="function">serial</span></div><div class="line"><span class="title">atomic_init</span><span class="params">(&amp;serial, <span class="number">0</span>)</span>;</div></pre></td></tr></table></figure></p>
+<p>#atomic代码解读</p>
+<ul>
+<li>atomic变量的数据结构</li>
+<li>atomic的相关操作</li>
+</ul>
+<p>```</p>
+<p>#define _Atomic(T)              struct { T volatile __val; }<br>typedef _Atomic(bool)            atomic_bool;<br>typedef _Atomic(char)            atomic_char;<br>typedef _Atomic(signed char)        atomic_schar;<br>typedef _Atomic(unsigned char)        atomic_uchar;<br>typedef _Atomic(short)            atomic_short;<br>typedef _Atomic(unsigned short)        atomic_ushort;<br>typedef _Atomic(int)            atomic_int;<br>typedef _Atomic(unsigned int)        atomic_uint;<br>typedef _Atomic(long)            atomic_long;<br>typedef _Atomic(unsigned long)        atomic_ulong;<br>typedef _Atomic(long long)        atomic_llong;<br>typedef _Atomic(unsigned long long)    atomic_ullong;</p>
+<p>#if <strong>STDC_VERSION</strong> &gt;= 201112L || __cplusplus &gt;= 201103L<br>  typedef _Atomic(char16_t)        atomic_char16_t;<br>  typedef _Atomic(char32_t)        atomic_char32_t;</p>
+<p>#endif<br>typedef _Atomic(wchar_t)        atomic_wchar_t;<br>typedef _Atomic(int_least8_t)        atomic_int_least8_t;<br>typedef _Atomic(uint_least8_t)    atomic_uint_least8_t;<br>typedef _Atomic(int_least16_t)    atomic_int_least16_t;<br>typedef _Atomic(uint_least16_t)    atomic_uint_least16_t;<br>typedef _Atomic(int_least32_t)    atomic_int_least32_t;<br>typedef _Atomic(uint_least32_t)    atomic_uint_least32_t;<br>typedef _Atomic(int_least64_t)    atomic_int_least64_t;<br>typedef _Atomic(uint_least64_t)    atomic_uint_least64_t;<br>typedef _Atomic(int_fast8_t)        atomic_int_fast8_t;<br>typedef _Atomic(uint_fast8_t)        atomic_uint_fast8_t;<br>typedef _Atomic(int_fast16_t)        atomic_int_fast16_t;<br>typedef _Atomic(uint_fast16_t)    atomic_uint_fast16_t;<br>typedef _Atomic(int_fast32_t)        atomic_int_fast32_t;<br>typedef _Atomic(uint_fast32_t)    atomic_uint_fast32_t;<br>typedef _Atomic(int_fast64_t)        atomic_int_fast64_t;<br>typedef _Atomic(uint_fast64_t)    atomic_uint_fast64_t;<br>typedef _Atomic(intptr_t)        atomic_intptr_t;<br>typedef _Atomic(uintptr_t)        atomic_uintptr_t;<br>typedef _Atomic(size_t)        atomic_size_t;<br>typedef _Atomic(ptrdiff_t)        atomic_ptrdiff_t;<br>typedef _Atomic(intmax_t)        atomic_intmax_t;<br>typedef _Atomic(uintmax_t)        atomic_uintmax_t;</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
   <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/11/23/tool/git/git-flow简介/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -662,162 +818,6 @@ git-flow 会依次切换到 master develop 分支下合并 hotfix/bug1，然后�
 <pre><code>git push origin :feature/some_awesome_feature
 </code></pre></li>
 </ul>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/11/23/android/常用类/atomic类/">
-
-  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <meta itemprop="name" content="andy">
-    <meta itemprop="description" content="">
-    <meta itemprop="image" content="/images/avatar.gif">
-  </span>
-
-  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-    <meta itemprop="name" content="andy">
-    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
-      <img style="display:none;" itemprop="url image" alt="andy" src="">
-    </span>
-  </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/11/23/android/常用类/atomic类/" itemprop="url">
-                  atomic类
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-11-23T23:03:00+08:00">
-                2016-11-23
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-              <span class="post-meta-divider">|</span>
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/android/" itemprop="url" rel="index">
-                    <span itemprop="name">android</span>
-                  </a>
-                </span>
-
-                
-                
-                  ， 
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/android/api/" itemprop="url" rel="index">
-                    <span itemprop="name">api</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>#atomic是什么</p>
-<p>#atomic的一个例子<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">atomic_uint_least32_t</span> <span class="function">serial</span></div><div class="line"><span class="title">atomic_init</span><span class="params">(&amp;serial, <span class="number">0</span>)</span>;</div></pre></td></tr></table></figure></p>
-<p>#atomic代码解读</p>
-<ul>
-<li>atomic变量的数据结构</li>
-<li>atomic的相关操作</li>
-</ul>
-<p>```</p>
-<p>#define _Atomic(T)              struct { T volatile __val; }<br>typedef _Atomic(bool)            atomic_bool;<br>typedef _Atomic(char)            atomic_char;<br>typedef _Atomic(signed char)        atomic_schar;<br>typedef _Atomic(unsigned char)        atomic_uchar;<br>typedef _Atomic(short)            atomic_short;<br>typedef _Atomic(unsigned short)        atomic_ushort;<br>typedef _Atomic(int)            atomic_int;<br>typedef _Atomic(unsigned int)        atomic_uint;<br>typedef _Atomic(long)            atomic_long;<br>typedef _Atomic(unsigned long)        atomic_ulong;<br>typedef _Atomic(long long)        atomic_llong;<br>typedef _Atomic(unsigned long long)    atomic_ullong;</p>
-<p>#if <strong>STDC_VERSION</strong> &gt;= 201112L || __cplusplus &gt;= 201103L<br>  typedef _Atomic(char16_t)        atomic_char16_t;<br>  typedef _Atomic(char32_t)        atomic_char32_t;</p>
-<p>#endif<br>typedef _Atomic(wchar_t)        atomic_wchar_t;<br>typedef _Atomic(int_least8_t)        atomic_int_least8_t;<br>typedef _Atomic(uint_least8_t)    atomic_uint_least8_t;<br>typedef _Atomic(int_least16_t)    atomic_int_least16_t;<br>typedef _Atomic(uint_least16_t)    atomic_uint_least16_t;<br>typedef _Atomic(int_least32_t)    atomic_int_least32_t;<br>typedef _Atomic(uint_least32_t)    atomic_uint_least32_t;<br>typedef _Atomic(int_least64_t)    atomic_int_least64_t;<br>typedef _Atomic(uint_least64_t)    atomic_uint_least64_t;<br>typedef _Atomic(int_fast8_t)        atomic_int_fast8_t;<br>typedef _Atomic(uint_fast8_t)        atomic_uint_fast8_t;<br>typedef _Atomic(int_fast16_t)        atomic_int_fast16_t;<br>typedef _Atomic(uint_fast16_t)    atomic_uint_fast16_t;<br>typedef _Atomic(int_fast32_t)        atomic_int_fast32_t;<br>typedef _Atomic(uint_fast32_t)    atomic_uint_fast32_t;<br>typedef _Atomic(int_fast64_t)        atomic_int_fast64_t;<br>typedef _Atomic(uint_fast64_t)    atomic_uint_fast64_t;<br>typedef _Atomic(intptr_t)        atomic_intptr_t;<br>typedef _Atomic(uintptr_t)        atomic_uintptr_t;<br>typedef _Atomic(size_t)        atomic_size_t;<br>typedef _Atomic(ptrdiff_t)        atomic_ptrdiff_t;<br>typedef _Atomic(intmax_t)        atomic_intmax_t;<br>typedef _Atomic(uintmax_t)        atomic_uintmax_t;</p>
 
           
         
