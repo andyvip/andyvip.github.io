@@ -5,7 +5,7 @@
   
 
 
-<html class="theme-next pisces use-motion" lang="zh-Hans">
+<html class="theme-next mist use-motion" lang="zh-Hans">
 <head>
   <meta charset="UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -89,14 +89,14 @@
 <meta property="og:type" content="article">
 <meta property="og:title" content="Property概述">
 <meta property="og:url" content="http://yoursite.com/2016/11/23/android/Property/Property概述/index.html">
-<meta property="og:site_name" content="Hexo123">
+<meta property="og:site_name" content="andy">
 <meta property="og:description" content="#概述
 属性（property）系统对Android来说是一个重要的功能。他作为一个系统服务管理着系统的配置和状态，所有的这些系统配置和状态都是属性 （property）。属性（property）是一对键/值（key/value）组合，键和值都是字符串类型。总体感觉属性系统非常像Windows的注册表的功能。Android中非常多的应用程序和库直接或者间接的依赖于属性系统，并由此决定其运行期的行为">
 <meta property="og:image" content="http://yoursite.com/../../../images/00-57-09.jpg">
 <meta property="og:image" content="http://yoursite.com/images/00-57-09.jpg">
 <meta property="og:image" content="http://yoursite.com/../../../images/01-06-04.jpg">
 <meta property="og:image" content="http://yoursite.com/images/01-06-04.jpg">
-<meta property="og:updated_time" content="2016-11-24T18:18:25.000Z">
+<meta property="og:updated_time" content="2016-11-24T18:19:53.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Property概述">
 <meta name="twitter:description" content="#概述
@@ -109,7 +109,7 @@
   var NexT = window.NexT || {};
   var CONFIG = {
     root: '/',
-    scheme: 'Pisces',
+    scheme: 'Mist',
     sidebar: {"position":"left","display":"post"},
     fancybox: true,
     motion: true,
@@ -135,7 +135,7 @@
 
 
 
-  <title> Property概述 | Hexo123 </title>
+  <title> Property概述 | andy </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -166,7 +166,7 @@
   <div class="custom-logo-site-title">
     <a href="/"  class="brand" rel="start">
       <span class="logo-line-before"><i></i></span>
-      <span class="site-title">Hexo123</span>
+      <span class="site-title">andy</span>
       <span class="logo-line-after"><i></i></span>
     </a>
   </div>
@@ -259,15 +259,15 @@
   <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/11/23/android/Property/Property概述/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <meta itemprop="name" content="John Doe">
+    <meta itemprop="name" content="andy">
     <meta itemprop="description" content="">
     <meta itemprop="image" content="/images/avatar.gif">
   </span>
 
   <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-    <meta itemprop="name" content="Hexo123">
+    <meta itemprop="name" content="andy">
     <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
-      <img style="display:none;" itemprop="url image" alt="Hexo123" src="">
+      <img style="display:none;" itemprop="url image" alt="andy" src="">
     </span>
   </span>
 
@@ -360,11 +360,11 @@
       
         <p>#概述</p>
 <p>属性（property）系统对Android来说是一个重要的功能。他作为一个系统服务管理着系统的配置和状态，所有的这些系统配置和状态都是属性 （property）。属性（property）是一对键/值（key/value）组合，键和值都是字符串类型。<br>总体感觉属性系统非常像Windows的注册表的功能。Android中非常多的应用程序和库直接或者间接的依赖于属性系统，并由此决定其运行期的行为。例如：adbd进程通过属性来决定是否当 前运行在模拟器中。再比如：java.io.File.pathSeparator方法返回存储在属性服务中的值。<br><br><br><br></p>
-<p>#属性系统怎样工作<br>属性系统宏观的结构图如下所示：<br><img src="../../../images/00-57-09.jpg" alt=""><br><img src="images/00-57-09.jpg" alt=""></p>
+<p>#属性系统怎样工作<br>属性系统宏观的结构图如下所示：<br><img src="../../../images/00-57-09.jpg" alt=""><br><img src="/images/00-57-09.jpg" alt=""></p>
 <p>从图中我们可以看出Android属性系统由有三个进程，一组属性文件和一块共享内存组成。这块共享内存保存着系统中所有的属性记录，只有 Property service能写这块共享内存，并且Property service负责将属性文件中的属性记录加载到共享内存中。</p>
 <p>属性读取进程（property consumer）把这块共享内存映射到自己的进程空间，然后直接读取它。属性设置进程（property setter）也加载这块共享到他的进程空间，但是他不能直接写这块共享内存。当他需要增加或者修改属性的时候，通过Unix Socket发生属性给Property service，Property service将代表设置进程写入共享内存和属性文件。</p>
 <p>Property service运行于init进程中。init进程首先创建一块共享内存，并把他的句柄fd存放在这块内存中，init进程通过mmap带 MAP_SHARE标志的系统调用，把这块内存映射到他的虚拟空间中，最终这块内存所有的更新将会被所有映射这块共享内存的进程看到。共享内存句柄fd和 共享内存大小存储在系统环境变量“ANDROID_PROPERTY_WORKSPACE”中，所有的进程包括属性设置进程和属性读取进程都将通过这个系 统环境变量获得共享内存的句柄fd和大小，然后把这块内存映射到他们自己的虚拟空间。共享内存布局如下：</p>
-<p><img src="../../../images/01-06-04.jpg" alt=""><br><img src="images/01-06-04.jpg" alt=""></p>
+<p><img src="../../../images/01-06-04.jpg" alt=""><br><img src="/images/01-06-04.jpg" alt=""></p>
 <p>然后，init进程将会从以下文件中加载属性：<br>&gt;<br>1   /default.prop<br>2   /system/build.prop<br>3   /system/default.prop<br>4   /data/local.prop</p>
 <p>下一步是启动Property service。这步中，将会创建一个Unix Socket服务器，这个Socket有一个闻名的名称“/dev/socket/property_service”。最后init进入死循环，等待socket的连接请求。</p>
 <p>在读取进程中，当它初始化libc库的时候，将会获得属性系统共享内存的句柄和大小（bionic/libc/bionic /libc_init_common.c <strong>libc_init_common函数）。并把这块共享内存映射到自己的进程虚拟空间中(bionic/libc/bionic /system_properties.c </strong>system_properties_init函数)。这样读取进程将会向访问普通内存一样访问属性系统的共享内存了。</p>
@@ -476,9 +476,9 @@
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/avatar.gif"
-               alt="John Doe" />
-          <p class="site-author-name" itemprop="name">John Doe</p>
-          <p class="site-description motion-element" itemprop="description"></p>
+               alt="andy" />
+          <p class="site-author-name" itemprop="name">andy</p>
+          <p class="site-description motion-element" itemprop="description">Android开发</p>
         </div>
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
@@ -544,7 +544,7 @@
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
-  <span class="author" itemprop="copyrightHolder">John Doe</span>
+  <span class="author" itemprop="copyrightHolder">andy</span>
 </div>
 
 
@@ -555,7 +555,7 @@
 <div class="theme-info">
   主题 -
   <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
-    NexT.Pisces
+    NexT.Mist
   </a>
 </div>
 
@@ -621,13 +621,6 @@
 
   
   
-
-
-  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
-
-  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
-
-
 
   
   <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
