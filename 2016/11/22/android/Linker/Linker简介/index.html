@@ -1,0 +1,655 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="android," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="##linker初始化
+###_startlinke的入口函数, 该函数调用了linker_init，并传入一个参数sp(堆栈指针)1234567ENTRY(_start)  mov x0, sp  bl __linker_init  /* linker init returns the _entry address in the main image */  br x0END(_start)
+#">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linker简介">
+<meta property="og:url" content="http://yoursite.com/2016/11/22/android/Linker/Linker简介/index.html">
+<meta property="og:site_name" content="Hexo123">
+<meta property="og:description" content="##linker初始化
+###_startlinke的入口函数, 该函数调用了linker_init，并传入一个参数sp(堆栈指针)1234567ENTRY(_start)  mov x0, sp  bl __linker_init  /* linker init returns the _entry address in the main image */  br x0END(_start)
+#">
+<meta property="og:updated_time" content="2016-11-24T17:47:31.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Linker简介">
+<meta name="twitter:description" content="##linker初始化
+###_startlinke的入口函数, 该函数调用了linker_init，并传入一个参数sp(堆栈指针)1234567ENTRY(_start)  mov x0, sp  bl __linker_init  /* linker init returns the _entry address in the main image */  br x0END(_start)
+#">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2016/11/22/android/Linker/Linker简介/"/>
+
+
+
+
+
+  <title> Linker简介 | Hexo123 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Hexo123</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/11/22/android/Linker/Linker简介/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="John Doe">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.gif">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Hexo123">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Hexo123" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Linker简介
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-11-22T14:05:00+08:00">
+                2016-11-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/android/" itemprop="url" rel="index">
+                    <span itemprop="name">android</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/android/linker/" itemprop="url" rel="index">
+                    <span itemprop="name">linker</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>##linker初始化</p>
+<p>###_start<br>linke的入口函数, 该函数调用了linker_init，并传入一个参数sp(堆栈指针)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">ENTRY(_start)</div><div class="line">  mov x0, sp</div><div class="line">  bl __linker_init</div><div class="line"></div><div class="line">  /* linker init returns the _entry address in the main image */</div><div class="line">  br x0</div><div class="line">END(_start)</div></pre></td></tr></table></figure></p>
+<p>###__linker_init<br>负责初始化 linker，完成 linker 的重定位工作。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div></pre></td><td class="code"><pre><div class="line">extern &quot;C&quot; ElfW(Addr) __linker_init(void* raw_args) &#123;</div><div class="line">  KernelArgumentBlock args(raw_args);</div><div class="line"></div><div class="line">  //linker 镜像的开始地址</div><div class="line">  ElfW(Addr) linker_addr = args.getauxval(AT_BASE);</div><div class="line"></div><div class="line">  //linker的入口点，禁止shell中调用linker</div><div class="line">  ElfW(Addr) entry_point = args.getauxval(AT_ENTRY);</div><div class="line">  ElfW(Ehdr)* elf_hdr = reinterpret_cast&lt;ElfW(Ehdr)*&gt;(linker_addr);</div><div class="line">  ElfW(Phdr)* phdr = reinterpret_cast&lt;ElfW(Phdr)*&gt;(linker_addr + elf_hdr-&gt;e_phoff);</div><div class="line"></div><div class="line">  soinfo linker_so(nullptr, nullptr, 0, 0);</div><div class="line"></div><div class="line">  // If the linker is not acting as PT_INTERP entry_point is equal to</div><div class="line">  // _start. Which means that the linker is running as an executable and</div><div class="line">  // already linked by PT_INTERP.</div><div class="line">  //</div><div class="line">  // This happens when user tries to run &apos;adb shell /system/bin/linker&apos;</div><div class="line">  // see also https://code.google.com/p/android/issues/detail?id=63174</div><div class="line">  if (reinterpret_cast&lt;ElfW(Addr)&gt;(&amp;_start) == entry_point) &#123;</div><div class="line">    __libc_fatal(&quot;This is %s, the helper program for shared library executables.\n&quot;, args.argv[0]);</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  linker_so.base = linker_addr;</div><div class="line">  linker_so.size = phdr_table_get_load_size(phdr, elf_hdr-&gt;e_phnum);</div><div class="line">  linker_so.load_bias = get_elf_exec_load_bias(elf_hdr);</div><div class="line">  linker_so.dynamic = nullptr;</div><div class="line">  linker_so.phdr = phdr;</div><div class="line">  linker_so.phnum = elf_hdr-&gt;e_phnum;</div><div class="line">  linker_so.set_linker_flag();</div><div class="line"></div><div class="line">  // This might not be obvious... The reasons why we pass g_empty_list</div><div class="line">  // in place of local_group here are (1) we do not really need it, because</div><div class="line">  // linker is built with DT_SYMBOLIC and therefore relocates its symbols against</div><div class="line">  // itself without having to look into local_group and (2) allocators</div><div class="line">  // are not yet initialized, and therefore we cannot use linked_list.push_*</div><div class="line">  // functions at this point.</div><div class="line">  //linker的重定向工作</div><div class="line">  if (!(linker_so.prelink_image() &amp;&amp; linker_so.link_image(g_empty_list, g_empty_list, nullptr))) &#123;</div><div class="line">    // It would be nice to print an error message, but if the linker</div><div class="line">    // can&apos;t link itself, there&apos;s no guarantee that we&apos;ll be able to</div><div class="line">    // call write() (because it involves a GOT reference). We may as</div><div class="line">    // well try though...</div><div class="line">    const char* msg = &quot;CANNOT LINK EXECUTABLE: &quot;;</div><div class="line">    write(2, msg, strlen(msg));</div><div class="line">    write(2, __linker_dl_err_buf, strlen(__linker_dl_err_buf));</div><div class="line">    write(2, &quot;\n&quot;, 1);</div><div class="line">    _exit(EXIT_FAILURE);</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  __libc_init_tls(args);</div><div class="line"></div><div class="line">  // Initialize the linker&apos;s own global variables</div><div class="line">  linker_so.call_constructors();</div><div class="line"></div><div class="line">  // Initialize static variables. Note that in order to</div><div class="line">  // get correct libdl_info we need to call constructors</div><div class="line">  // before get_libdl_info().</div><div class="line">  solist = get_libdl_info();</div><div class="line">  sonext = get_libdl_info();</div><div class="line"></div><div class="line">  // We have successfully fixed our own relocations. It&apos;s safe to run</div><div class="line">  // the main part of the linker now.</div><div class="line">  args.abort_message_ptr = &amp;g_abort_message;</div><div class="line">  ElfW(Addr) start_address = __linker_init_post_relocation(args, linker_addr);</div><div class="line"></div><div class="line">  INFO(&quot;[ jumping to _start ]&quot;);</div><div class="line"></div><div class="line">  // Return the address that the calling assembly stub should jump to.</div><div class="line">  return start_address;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>###__linker_init_post_relocation<br>初始化property, 连接debugd，预加载一下系统库<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div></pre></td><td class="code"><pre><div class="line">static ElfW(Addr) __linker_init_post_relocation(KernelArgumentBlock&amp; args, ElfW(Addr) linker_base) &#123;</div><div class="line"></div><div class="line">  ...</div><div class="line"></div><div class="line">  __system_properties_init();</div><div class="line">  debuggerd_init();</div><div class="line"></div><div class="line">  ...</div><div class="line"></div><div class="line">  const char* ldpath_env = nullptr;</div><div class="line">  const char* ldpreload_env = nullptr;</div><div class="line">  if (!getauxval(AT_SECURE)) &#123;</div><div class="line">    ldpath_env = getenv(&quot;LD_LIBRARY_PATH&quot;);</div><div class="line">    ldpreload_env = getenv(&quot;LD_PRELOAD&quot;);</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  ...</div><div class="line"></div><div class="line">  soinfo* si = soinfo_alloc(args.argv[0], nullptr, 0, RTLD_GLOBAL);</div><div class="line"></div><div class="line">  ...</div><div class="line"></div><div class="line">  parse_LD_LIBRARY_PATH(ldpath_env);</div><div class="line">  parse_LD_PRELOAD(ldpreload_env);</div><div class="line"></div><div class="line">  somain = si;</div><div class="line"></div><div class="line">  ...</div><div class="line"></div><div class="line">  for (const auto&amp; ld_preload_name : g_ld_preload_names) &#123;</div><div class="line">    needed_library_name_list.push_back(ld_preload_name.c_str());</div><div class="line">    ++needed_libraries_count;</div><div class="line">    ++ld_preloads_count;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  for_each_dt_needed(si, [&amp;](const char* name) &#123;</div><div class="line">    needed_library_name_list.push_back(name);</div><div class="line">    ++needed_libraries_count;</div><div class="line">  &#125;);</div><div class="line"></div><div class="line">  const char* needed_library_names[needed_libraries_count];</div><div class="line"></div><div class="line">  memset(needed_library_names, 0, sizeof(needed_library_names));</div><div class="line">  needed_library_name_list.copy_to_array(needed_library_names, needed_libraries_count);</div><div class="line"></div><div class="line">  if (needed_libraries_count &gt; 0 &amp;&amp;</div><div class="line">      !find_libraries(si, needed_library_names, needed_libraries_count, nullptr,</div><div class="line">          &amp;g_ld_preloads, ld_preloads_count, RTLD_GLOBAL, nullptr)) &#123;</div><div class="line">    __libc_format_fd(2, &quot;CANNOT LINK EXECUTABLE: %s\n&quot;, linker_get_error_buffer());</div><div class="line">    exit(EXIT_FAILURE);</div><div class="line">  &#125; else if (needed_libraries_count == 0) &#123;</div><div class="line">    if (!si-&gt;link_image(g_empty_list, soinfo::soinfo_list_t::make_list(si), nullptr)) &#123;</div><div class="line">      __libc_format_fd(2, &quot;CANNOT LINK EXECUTABLE: %s\n&quot;, linker_get_error_buffer());</div><div class="line">      exit(EXIT_FAILURE);</div><div class="line">    &#125;</div><div class="line">    si-&gt;increment_ref_count();</div><div class="line">  &#125;</div><div class="line"></div><div class="line"> ...</div><div class="line"></div><div class="line">  &#123;</div><div class="line">    ProtectedDataGuard guard;</div><div class="line"></div><div class="line">    si-&gt;call_pre_init_constructors();</div><div class="line">    ...</div><div class="line">    si-&gt;call_constructors();</div><div class="line">  &#125;</div><div class="line"></div><div class="line"></div><div class="line">  TRACE(&quot;[ Ready to execute &apos;%s&apos; @ %p ]&quot;, si-&gt;get_realpath(), reinterpret_cast&lt;void*&gt;(si-&gt;entry));</div><div class="line">  return si-&gt;entry;</div></pre></td></tr></table></figure></p>
+<p>##动态库的加载过程<br>dlopen-&gt;dlopen_ext-&gt;do_dlopen<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line">soinfo* do_dlopen(const char* name, int flags, const android_dlextinfo* extinfo) &#123;</div><div class="line">  if ((flags &amp; ~(RTLD_NOW|RTLD_LAZY|RTLD_LOCAL|RTLD_GLOBAL|RTLD_NODELETE|RTLD_NOLOAD)) != 0) &#123;</div><div class="line">    DL_ERR(&quot;invalid flags to dlopen: %x&quot;, flags);</div><div class="line">    return nullptr;</div><div class="line">  &#125;</div><div class="line">  if (extinfo != nullptr) &#123;</div><div class="line">    if ((extinfo-&gt;flags &amp; ~(ANDROID_DLEXT_VALID_FLAG_BITS)) != 0) &#123;</div><div class="line">      DL_ERR(&quot;invalid extended flags to android_dlopen_ext: 0x%&quot; PRIx64, extinfo-&gt;flags);</div><div class="line">      return nullptr;</div><div class="line">    &#125;</div><div class="line">    if ((extinfo-&gt;flags &amp; ANDROID_DLEXT_USE_LIBRARY_FD) == 0 &amp;&amp;</div><div class="line">        (extinfo-&gt;flags &amp; ANDROID_DLEXT_USE_LIBRARY_FD_OFFSET) != 0) &#123;</div><div class="line">      DL_ERR(&quot;invalid extended flag combination (ANDROID_DLEXT_USE_LIBRARY_FD_OFFSET without &quot;</div><div class="line">          &quot;ANDROID_DLEXT_USE_LIBRARY_FD): 0x%&quot; PRIx64, extinfo-&gt;flags);</div><div class="line">      return nullptr;</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  ProtectedDataGuard guard;</div><div class="line">  soinfo* si = find_library(name, flags, extinfo);</div><div class="line">  if (si != nullptr) &#123;</div><div class="line">    si-&gt;call_constructors();</div><div class="line">  &#125;</div><div class="line">  return si;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>find_library-&gt;find_libraries<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line">static bool find_libraries(soinfo* start_with, const char* const library_names[],</div><div class="line">      size_t library_names_count, soinfo* soinfos[], std::vector&lt;soinfo*&gt;* ld_preloads,</div><div class="line">      size_t ld_preloads_count, int rtld_flags, const android_dlextinfo* extinfo) &#123;</div><div class="line"></div><div class="line">   ...</div><div class="line"></div><div class="line">  // Step 1: load and pre-link all DT_NEEDED libraries in breadth first order.</div><div class="line">  for (LoadTask::unique_ptr task(load_tasks.pop_front());</div><div class="line">      task.get() != nullptr; task.reset(load_tasks.pop_front())) &#123;</div><div class="line">    soinfo* si = find_library_internal(load_tasks, task-&gt;get_name(), rtld_flags, extinfo);</div><div class="line">    ...</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  // Step 2: link libraries.</div><div class="line"> ...</div><div class="line">  bool linked = local_group.visit([&amp;](soinfo* si) &#123;</div><div class="line">    if (!si-&gt;is_linked()) &#123;</div><div class="line">      if (!si-&gt;link_image(global_group, local_group, extinfo)) &#123;</div><div class="line">        return false;</div><div class="line">      &#125;</div><div class="line">      si-&gt;set_linked();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    return true;</div><div class="line">  &#125;);</div><div class="line"></div><div class="line">  ...</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>find_library_internal-&gt;load_library-&gt;load_library<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line">static soinfo* load_library(int fd, off64_t file_offset,</div><div class="line">                            LoadTaskList&amp; load_tasks,</div><div class="line">                            const char* name, int rtld_flags,</div><div class="line">                            const android_dlextinfo* extinfo) &#123;</div><div class="line"> ...</div><div class="line">  // Read the ELF header and load the segments.</div><div class="line">  ElfReader elf_reader(realpath.c_str(), fd, file_offset, file_stat.st_size);</div><div class="line">  if (!elf_reader.Load(extinfo)) &#123;</div><div class="line">    return nullptr;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  soinfo* si = soinfo_alloc(realpath.c_str(), &amp;file_stat, file_offset, rtld_flags);</div><div class="line">  if (si == nullptr) &#123;</div><div class="line">    return nullptr;</div><div class="line">  &#125;</div><div class="line">  si-&gt;base = elf_reader.load_start();</div><div class="line">  si-&gt;size = elf_reader.load_size();</div><div class="line">  si-&gt;load_bias = elf_reader.load_bias();</div><div class="line">  si-&gt;phnum = elf_reader.phdr_count();</div><div class="line">  si-&gt;phdr = elf_reader.loaded_phdr();</div><div class="line"></div><div class="line">  if (!si-&gt;prelink_image()) &#123;</div><div class="line">    soinfo_free(si);</div><div class="line">    return nullptr;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  for_each_dt_needed(si, [&amp;] (const char* name) &#123;</div><div class="line">    load_tasks.push_back(LoadTask::create(name, si));</div><div class="line">  &#125;);</div><div class="line"></div><div class="line">  return si;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/android/" rel="tag"># android</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/11/22/android/Linker/Elf简介/" rel="next" title="Elf简介">
+                <i class="fa fa-chevron-left"></i> Elf简介
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/11/23/android/Init/Init简介/" rel="prev" title="Init简介">
+                Init简介 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview sidebar-panel sidebar-panel-active">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="John Doe" />
+          <p class="site-author-name" itemprop="name">John Doe</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">8</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+</body>
+</html>

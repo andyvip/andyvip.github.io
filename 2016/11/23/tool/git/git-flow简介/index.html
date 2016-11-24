@@ -1,0 +1,830 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="git,git-flow," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="#Git flow 开发流程
+
+branching model
+
+model分成兩個主要分支，三種支援性分支
+主要分支
+    master: 永遠處在 production-ready 狀態
+    develop: 最新的下次發佈開發狀態
+
+支援性分支
+    Feature branches: 開發新功能都從 develop 分支出來，完成後 merge 回 develop
+    Rele">
+<meta property="og:type" content="article">
+<meta property="og:title" content="atomic类">
+<meta property="og:url" content="http://yoursite.com/2016/11/23/tool/git/git-flow简介/index.html">
+<meta property="og:site_name" content="Hexo123">
+<meta property="og:description" content="#Git flow 开发流程
+
+branching model
+
+model分成兩個主要分支，三種支援性分支
+主要分支
+    master: 永遠處在 production-ready 狀態
+    develop: 最新的下次發佈開發狀態
+
+支援性分支
+    Feature branches: 開發新功能都從 develop 分支出來，完成後 merge 回 develop
+    Rele">
+<meta property="og:updated_time" content="2016-11-24T17:53:02.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="atomic类">
+<meta name="twitter:description" content="#Git flow 开发流程
+
+branching model
+
+model分成兩個主要分支，三種支援性分支
+主要分支
+    master: 永遠處在 production-ready 狀態
+    develop: 最新的下次發佈開發狀態
+
+支援性分支
+    Feature branches: 開發新功能都從 develop 分支出來，完成後 merge 回 develop
+    Rele">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2016/11/23/tool/git/git-flow简介/"/>
+
+
+
+
+
+  <title> atomic类 | Hexo123 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Hexo123</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/11/23/tool/git/git-flow简介/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="John Doe">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.gif">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Hexo123">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Hexo123" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                atomic类
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-11-23T23:03:00+08:00">
+                2016-11-23
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/tool/" itemprop="url" rel="index">
+                    <span itemprop="name">tool</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/tool/git/" itemprop="url" rel="index">
+                    <span itemprop="name">git</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>#Git flow 开发流程</p>
+<ul>
+<li>branching model</li>
+</ul>
+<p>model分成兩個主要分支，三種支援性分支</p>
+<pre><code>主要分支
+    master: 永遠處在 production-ready 狀態
+    develop: 最新的下次發佈開發狀態
+
+支援性分支
+    Feature branches: 開發新功能都從 develop 分支出來，完成後 merge 回 develop
+    Release branches: 準備要 release 的版本，只修 bugs。從 develop 分支出來，完成後 merge 回 master 和 develop
+    Hotfix branches: 等不及 release 版本就必須馬上修 master 趕上線的情況。會從 master 分支出來，完成後 merge 回 master 和 develop
+</code></pre><hr>
+<ul>
+<li><p>create branching model</p>
+<p>git flow init</p>
+<pre><code>Initialized empty Git repository in /Users/fannheyward/flowTest/.git/
+No branches exist yet. Base branches must be created now.
+Branch name for production releases: [master]
+Branch name for &quot;next release&quot; development: [develop]
+
+How to name your supporting branch prefixes?
+Feature branches? [feature/]
+Release branches? [release/]
+Hotfix branches? [hotfix/]
+Support branches? [support/]
+Version tag prefix? []
+</code></pre></li>
+</ul>
+<hr>
+<ul>
+<li><p>新功能开发, 代号 f1</p>
+<p>1.git flow feature start f1</p>
+<pre><code>Switched to a new branch &apos;feature/f1&apos;
+
+Summary of actions:
+- A new branch &apos;feature/f1&apos; was created, based on &apos;develop&apos;
+- You are now on branch &apos;feature/f1&apos;
+
+Now, start committing on your feature. When done, use:
+
+    git flow feature finish f1
+
+git-flow 从 develop 分支创建了一个新的分支 feature/f1，并自动切换到这个分支下面。然后就可以进行 f1 功能开发，中间可以多次的 commit 操作。
+</code></pre><p>2.git flow feature finish f1</p>
+<pre><code>Switched to branch &apos;develop&apos;
+Already up-to-date.
+Deleted branch feature/f1 (was 7bb5749).
+
+Summary of actions:
+- The feature branch &apos;feature/f1&apos; was merged into &apos;develop&apos;
+- Feature branch &apos;feature/f1&apos; has been removed
+- You are now on branch &apos;develop&apos;
+
+feature/f1 分支的代码会被合并到 develop 里面，然后删除该分支，切换回 develop. 到此，新功能开发这个场景完毕。在 f1 功能开发中，如果 f1 未完成，同时功能 f2 要开始进行，也是可以的。
+</code></pre></li>
+</ul>
+<hr>
+<ul>
+<li><p>发布上线，代号 0.1</p>
+<p>1.git flow release start 0.1</p>
+<pre><code>Switched to a new branch &apos;release/0.1&apos;
+
+Summary of actions:
+- A new branch &apos;release/0.1&apos; was created, based on &apos;develop&apos;
+- You are now on branch &apos;release/0.1&apos;
+
+Follow-up actions:
+- Bump the version number now!
+- Start committing last-minute fixes in preparing your release
+- When done, run:
+
+git flow release finish &apos;0.1&apos;
+
+git-flow 从 develop 分支创建一个新的分支 release/0.1，并切换到该分支下，接下来要做的就是修改版本号等发布操作。
+</code></pre><p>2.git flow release finish 0.1</p>
+<pre><code>Switched to branch &apos;master&apos;
+Merge made by the &apos;recursive&apos; strategy.
+f1      |    1 +
+version |    1 +
+2 files changed, 2 insertions(+)
+create mode 100644 f1
+create mode 100644 version
+Switched to branch &apos;develop&apos;
+Merge made by the &apos;recursive&apos; strategy.
+version |    1 +
+1 file changed, 1 insertion(+)
+create mode 100644 version
+Deleted branch release/0.1 (was d77df80).
+
+Summary of actions:
+- Latest objects have been fetched from &apos;origin&apos;
+- Release branch has been merged into &apos;master&apos;
+- The release was tagged &apos;0.1&apos;
+- Release branch has been back-merged into &apos;develop&apos;
+- Release branch &apos;release/0.1&apos; has been deleted
+
+git-flow 会依次切换到 master develop 下合并 release/0.1 里的修改，然后用 git tag 的给当次发布打上 tag 0.1，可以通过 git tag 查看所有 tag：
+</code></pre></li>
+</ul>
+<hr>
+<ul>
+<li><p>紧急 bug 修正，代号 bug1</p>
+<p>1.git flow hotfix start bug1</p>
+<pre><code>Switched to a new branch &apos;hotfix/bug1&apos;
+
+Summary of actions:
+- A new branch &apos;hotfix/bug1&apos; was created, based on &apos;master&apos;
+- You are now on branch &apos;hotfix/bug1&apos;
+
+Follow-up actions:
+- Bump the version number now!
+- Start committing your hot fixes
+- When done, run:
+
+    git flow hotfix finish &apos;bug1&apos;
+
+git-flow 从 master 分支创建一个新的分支 hotfix/bug1，并切换到该分支下。接下来要做的就是修复 bug.
+</code></pre><p>2.git flow hotfix finish ‘bug1’</p>
+<pre><code>Switched to branch &apos;master&apos;
+Merge made by the &apos;recursive&apos; strategy.
+f1 |    2 +-
+1 file changed, 1 insertion(+), 1 deletion(-)
+Switched to branch &apos;develop&apos;
+Merge made by the &apos;recursive&apos; strategy.
+f1 |    2 +-
+1 file changed, 1 insertion(+), 1 deletion(-)
+Deleted branch hotfix/bug1 (was aa3ca2e).
+
+Summary of actions:
+- Latest objects have been fetched from &apos;origin&apos;
+- Hotfix branch has been merged into &apos;master&apos;
+- The hotfix was tagged &apos;bug1&apos;
+- Hotfix branch has been back-merged into &apos;develop&apos;
+- Hotfix branch &apos;hotfix/bug1&apos; has been deleted
+
+git-flow 会依次切换到 master develop 分支下合并 hotfix/bug1，然后删掉 hotfix/bug1。到此，hotfix 完成。
+</code></pre></li>
+</ul>
+<hr>
+<ul>
+<li><p>remote branch</p>
+<p>1.push 一個 feature branch 到遠端</p>
+<pre><code>git flow feature publish some_awesome_feature
+或 git push origin feature/some_awesome_feature
+</code></pre><p>2.追蹤一個遠端的 branch</p>
+<pre><code>git flow feature track some_awesome_feature
+或 git checkout -b feature/some_awesome_feature -t origin/feature/some_awesome_feature
+</code></pre><p>3.刪除遠端的 branch</p>
+<pre><code>git push origin :feature/some_awesome_feature
+</code></pre></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/git/" rel="tag"># git</a>
+          
+            <a href="/tags/git-flow/" rel="tag"># git-flow</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/11/23/android/Selinux/Seliux简介/" rel="next" title="Seliux简介">
+                <i class="fa fa-chevron-left"></i> Seliux简介
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/11/23/android/常用类/atomic类/" rel="prev" title="atomic类">
+                atomic类 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview sidebar-panel sidebar-panel-active">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="John Doe" />
+          <p class="site-author-name" itemprop="name">John Doe</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">8</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+</body>
+</html>

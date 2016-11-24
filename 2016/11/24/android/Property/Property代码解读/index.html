@@ -1,0 +1,646 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="android," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="#prop_area的数据结构12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667686970717273747576777879808182838485868788struct prop_area &amp;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Property代码解读">
+<meta property="og:url" content="http://yoursite.com/2016/11/24/android/Property/Property代码解读/index.html">
+<meta property="og:site_name" content="Hexo123">
+<meta property="og:description" content="#prop_area的数据结构12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667686970717273747576777879808182838485868788struct prop_area &amp;">
+<meta property="og:updated_time" content="2016-11-24T17:55:22.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Property代码解读">
+<meta name="twitter:description" content="#prop_area的数据结构12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667686970717273747576777879808182838485868788struct prop_area &amp;">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2016/11/24/android/Property/Property代码解读/"/>
+
+
+
+
+
+  <title> Property代码解读 | Hexo123 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Hexo123</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/11/24/android/Property/Property代码解读/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="John Doe">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.gif">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Hexo123">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Hexo123" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Property代码解读
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-11-24T01:38:00+08:00">
+                2016-11-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/android/" itemprop="url" rel="index">
+                    <span itemprop="name">android</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/android/property/" itemprop="url" rel="index">
+                    <span itemprop="name">property</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>#prop_area的数据结构<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">struct</span> prop_area &#123;</div><div class="line">    <span class="keyword">uint32_t</span> bytes_used;</div><div class="line">    <span class="keyword">atomic_uint_least32_t</span> serial;</div><div class="line">    <span class="keyword">uint32_t</span> magic;</div><div class="line">    <span class="keyword">uint32_t</span> version;</div><div class="line">    <span class="keyword">uint32_t</span> reserved[<span class="number">28</span>];</div><div class="line">    <span class="keyword">char</span> data[<span class="number">0</span>];</div><div class="line"></div><div class="line">    prop_area(<span class="keyword">const</span> <span class="keyword">uint32_t</span> magic, <span class="keyword">const</span> <span class="keyword">uint32_t</span> version) :</div><div class="line">        magic(magic), version(version) &#123;</div><div class="line">        atomic_init(&amp;serial, <span class="number">0</span>);</div><div class="line">        <span class="built_in">memset</span>(reserved, <span class="number">0</span>, <span class="keyword">sizeof</span>(reserved));</div><div class="line">        <span class="comment">// Allocate enough space for the root node.</span></div><div class="line">        bytes_used = <span class="keyword">sizeof</span>(prop_bt);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">/*</span></div><div class="line"> * Properties are stored in a hybrid trie/binary tree structure.</div><div class="line"> * Each property's name is delimited at '.' characters, and the tokens are put</div><div class="line"> * into a trie structure.  Siblings at each level of the trie are stored in a</div><div class="line"> * binary tree.  For instance, "ro.secure"="1" could be stored as follows:</div><div class="line"> *</div><div class="line"> * +-----+   children    +----+   children    +--------+</div><div class="line"> * |     |--------------&gt;| ro |--------------&gt;| secure |</div><div class="line"> * +-----+               +----+               +--------+</div><div class="line"> *                       /    \                /   |</div><div class="line"> *                 left /      \ right   left /    |  prop   +===========+</div><div class="line"> *                     v        v            v     +--------&gt;| ro.secure |</div><div class="line"> *                  +-----+   +-----+     +-----+            +-----------+</div><div class="line"> *                  | net |   | sys |     | com |            |     1     |</div><div class="line"> *                  +-----+   +-----+     +-----+            +===========+</div><div class="line"> */</div><div class="line"> <span class="comment">//树节点的数据结构</span></div><div class="line"><span class="keyword">struct</span> prop_bt &#123;</div><div class="line">    <span class="keyword">uint8_t</span> namelen;</div><div class="line">    <span class="keyword">uint8_t</span> reserved[<span class="number">3</span>];</div><div class="line"></div><div class="line">    <span class="comment">// The property trie is updated only by the init process (single threaded) which provides</span></div><div class="line">    <span class="comment">// property service. And it can be read by multiple threads at the same time.</span></div><div class="line">    <span class="comment">// As the property trie is not protected by locks, we use atomic_uint_least32_t types for the</span></div><div class="line">    <span class="comment">// left, right, children "pointers" in the trie node. To make sure readers who see the</span></div><div class="line">    <span class="comment">// change of "pointers" can also notice the change of prop_bt structure contents pointed by</span></div><div class="line">    <span class="comment">// the "pointers", we always use release-consume ordering pair when accessing these "pointers".</span></div><div class="line"></div><div class="line">    <span class="comment">// prop "points" to prop_info structure if there is a propery associated with the trie node.</span></div><div class="line">    <span class="comment">// Its situation is similar to the left, right, children "pointers". So we use</span></div><div class="line">    <span class="comment">// atomic_uint_least32_t and release-consume ordering to protect it as well.</span></div><div class="line"></div><div class="line">    <span class="comment">// We should also avoid rereading these fields redundantly, since not</span></div><div class="line">    <span class="comment">// all processor implementations ensure that multiple loads from the</span></div><div class="line">    <span class="comment">// same field are carried out in the right order.</span></div><div class="line">    <span class="keyword">atomic_uint_least32_t</span> prop;</div><div class="line"></div><div class="line">    <span class="keyword">atomic_uint_least32_t</span> left;</div><div class="line">    <span class="keyword">atomic_uint_least32_t</span> right;</div><div class="line"></div><div class="line">    <span class="keyword">atomic_uint_least32_t</span> children;</div><div class="line"></div><div class="line">    <span class="keyword">char</span> name[<span class="number">0</span>];</div><div class="line"></div><div class="line">    prop_bt(<span class="keyword">const</span> <span class="keyword">char</span> *name, <span class="keyword">const</span> <span class="keyword">uint8_t</span> name_length) &#123;</div><div class="line">        <span class="keyword">this</span>-&gt;namelen = name_length;</div><div class="line">        <span class="built_in">memcpy</span>(<span class="keyword">this</span>-&gt;name, name, name_length);</div><div class="line">        <span class="keyword">this</span>-&gt;name[name_length] = <span class="string">'\0'</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line"><span class="keyword">private</span>:</div><div class="line">    DISALLOW_COPY_AND_ASSIGN(prop_bt);</div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="comment">//属性的数据结构</span></div><div class="line"><span class="keyword">struct</span> prop_info &#123;</div><div class="line">    <span class="keyword">atomic_uint_least32_t</span> serial;</div><div class="line">    <span class="keyword">char</span> value[PROP_VALUE_MAX];</div><div class="line">    <span class="keyword">char</span> name[<span class="number">0</span>];</div><div class="line"></div><div class="line">    prop_info(<span class="keyword">const</span> <span class="keyword">char</span> *name, <span class="keyword">const</span> <span class="keyword">uint8_t</span> namelen, <span class="keyword">const</span> <span class="keyword">char</span> *value,</div><div class="line">              <span class="keyword">const</span> <span class="keyword">uint8_t</span> valuelen) &#123;</div><div class="line">        <span class="built_in">memcpy</span>(<span class="keyword">this</span>-&gt;name, name, namelen);</div><div class="line">        <span class="keyword">this</span>-&gt;name[namelen] = <span class="string">'\0'</span>;</div><div class="line">        atomic_init(&amp;<span class="keyword">this</span>-&gt;serial, valuelen &lt;&lt; <span class="number">24</span>);</div><div class="line">        <span class="built_in">memcpy</span>(<span class="keyword">this</span>-&gt;value, value, valuelen);</div><div class="line">        <span class="keyword">this</span>-&gt;value[valuelen] = <span class="string">'\0'</span>;</div><div class="line">    &#125;</div><div class="line"><span class="keyword">private</span>:</div><div class="line">    DISALLOW_COPY_AND_ASSIGN(prop_info);</div><div class="line">&#125;;</div></pre></td></tr></table></figure></p>
+<p>###查找一个属性<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> prop_info *__system_property_find(<span class="keyword">const</span> <span class="keyword">char</span> *name)</div><div class="line">&#123;</div><div class="line">    <span class="keyword">if</span> (__predict_false(compat_mode)) &#123;</div><div class="line">        <span class="keyword">return</span> __system_property_find_compat(name);</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> find_property(root_node(), name, <span class="built_in">strlen</span>(name), <span class="literal">NULL</span>, <span class="number">0</span>, <span class="literal">false</span>);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">//获取跟节点</span></div><div class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">inline</span> prop_bt *<span class="title">root_node</span><span class="params">()</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">reinterpret_cast</span>&lt;prop_bt*&gt;(to_prop_obj(<span class="number">0</span>));</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">//定位带某个节点</span></div><div class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">void</span> *<span class="title">to_prop_obj</span><span class="params">(<span class="keyword">uint_least32_t</span> off)</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">if</span> (off &gt; pa_data_size)</div><div class="line">        <span class="keyword">return</span> <span class="literal">NULL</span>;</div><div class="line">    <span class="keyword">if</span> (!__system_property_area__)</div><div class="line">        <span class="keyword">return</span> <span class="literal">NULL</span>;</div><div class="line"></div><div class="line">    <span class="keyword">return</span> (__system_property_area__-&gt;data + off);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">const</span> prop_info *<span class="title">find_property</span><span class="params">(prop_bt *<span class="keyword">const</span> trie, <span class="keyword">const</span> <span class="keyword">char</span> *name,</span></span></div><div class="line">        <span class="keyword">uint8_t</span> namelen, <span class="keyword">const</span> <span class="keyword">char</span> *value, <span class="keyword">uint8_t</span> valuelen,</div><div class="line">        <span class="keyword">bool</span> alloc_if_needed)</div><div class="line">&#123;</div><div class="line">    <span class="keyword">if</span> (!trie) <span class="keyword">return</span> <span class="literal">NULL</span>;</div><div class="line"></div><div class="line">    <span class="keyword">const</span> <span class="keyword">char</span> *remaining_name = name;</div><div class="line">    prop_bt* current = trie;</div><div class="line">    <span class="keyword">while</span> (<span class="literal">true</span>) &#123;</div><div class="line">        <span class="keyword">const</span> <span class="keyword">char</span> *sep = <span class="built_in">strchr</span>(remaining_name, <span class="string">'.'</span>);</div><div class="line">        <span class="keyword">const</span> <span class="keyword">bool</span> want_subtree = (sep != <span class="literal">NULL</span>);</div><div class="line">        <span class="keyword">const</span> <span class="keyword">uint8_t</span> substr_size = (want_subtree) ?</div><div class="line">            sep - remaining_name : <span class="built_in">strlen</span>(remaining_name);</div><div class="line"></div><div class="line">        <span class="keyword">if</span> (!substr_size) &#123;</div><div class="line">            <span class="keyword">return</span> <span class="literal">NULL</span>;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        prop_bt* root = <span class="literal">NULL</span>;</div><div class="line">        <span class="keyword">uint_least32_t</span> children_offset = atomic_load_explicit(&amp;current-&gt;children, memory_order_relaxed);</div><div class="line">        <span class="keyword">if</span> (children_offset != <span class="number">0</span>) &#123;</div><div class="line">            root = to_prop_bt(&amp;current-&gt;children);</div><div class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (alloc_if_needed) &#123;</div><div class="line">            <span class="keyword">uint_least32_t</span> new_offset;</div><div class="line">            root = new_prop_bt(remaining_name, substr_size, &amp;new_offset);</div><div class="line">            <span class="keyword">if</span> (root) &#123;</div><div class="line">                atomic_store_explicit(&amp;current-&gt;children, new_offset, memory_order_release);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="keyword">if</span> (!root) &#123;</div><div class="line">            <span class="keyword">return</span> <span class="literal">NULL</span>;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        current = find_prop_bt(root, remaining_name, substr_size, alloc_if_needed);</div><div class="line">        <span class="keyword">if</span> (!current) &#123;</div><div class="line">            <span class="keyword">return</span> <span class="literal">NULL</span>;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="keyword">if</span> (!want_subtree)</div><div class="line">            <span class="keyword">break</span>;</div><div class="line"></div><div class="line">        remaining_name = sep + <span class="number">1</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">uint_least32_t</span> prop_offset = atomic_load_explicit(&amp;current-&gt;prop, memory_order_relaxed);</div><div class="line">    <span class="keyword">if</span> (prop_offset != <span class="number">0</span>) &#123;</div><div class="line">        <span class="keyword">return</span> to_prop_info(&amp;current-&gt;prop);</div><div class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (alloc_if_needed) &#123;</div><div class="line">        <span class="keyword">uint_least32_t</span> new_offset;</div><div class="line">        prop_info* new_info = new_prop_info(name, namelen, value, valuelen, &amp;new_offset);</div><div class="line">        <span class="keyword">if</span> (new_info) &#123;</div><div class="line">            atomic_store_explicit(&amp;current-&gt;prop, new_offset, memory_order_release);</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="keyword">return</span> new_info;</div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">        <span class="keyword">return</span> <span class="literal">NULL</span>;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>#property_init</p>
+<p>property_init的职责就是初始化客户端进程的属性存储区域，代码分析：<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">property_init</span><span class="params">()</span> </span>&#123;</div><div class="line">    <span class="comment">//第一次调用property_area_initialized为false</span></div><div class="line">    <span class="keyword">if</span> (property_area_initialized) &#123;</div><div class="line">        <span class="keyword">return</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    property_area_initialized = <span class="literal">true</span>;</div><div class="line"></div><div class="line">    <span class="keyword">if</span> (__system_property_area_init()) &#123;</div><div class="line">        <span class="keyword">return</span>;</div><div class="line">    &#125;</div><div class="line">    <span class="comment">/*</span></div><div class="line">    pa_workspace是一个全局变量，其数据结构为：</div><div class="line">    static workspace pa_workspace;</div><div class="line">    struct workspace &#123;</div><div class="line">        size_t size;</div><div class="line">        int fd;</div><div class="line">    &#125;;</div><div class="line">    #define PROP_FILENAME "/dev/__properties__"</div><div class="line">    */</div><div class="line">    pa_workspace.size = <span class="number">0</span>;</div><div class="line">    pa_workspace.fd = open(PROP_FILENAME, O_RDONLY | O_NOFOLLOW | O_CLOEXEC);</div><div class="line">    <span class="keyword">if</span> (pa_workspace.fd == <span class="number">-1</span>) &#123;</div><div class="line">        ERROR(<span class="string">"Failed to open %s: %s\n"</span>, PROP_FILENAME, strerror(errno));</div><div class="line">        <span class="keyword">return</span>;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"><span class="keyword">int</span> __system_property_area_init()</div><div class="line">&#123;</div><div class="line">    <span class="keyword">return</span> map_prop_area_rw();</div><div class="line">&#125;</div><div class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">int</span> <span class="title">map_prop_area_rw</span><span class="params">()</span></span></div><div class="line">&#123;</div><div class="line">    <span class="comment">/* dev is a tmpfs that we can use to carve a shared workspace</span></div><div class="line">     * out of, so let's do that...</div><div class="line">     * property_filename定义：</div><div class="line">     * static char property_filename[PATH_MAX] = PROP_FILENAME;</div><div class="line">     * #define PROP_FILENAME "/dev/__properties__"</div><div class="line">     */</div><div class="line">    <span class="keyword">const</span> <span class="keyword">int</span> fd = open(property_filename,</div><div class="line">                        O_RDWR | O_CREAT | O_NOFOLLOW | O_CLOEXEC | O_EXCL, <span class="number">0444</span>);</div><div class="line"></div><div class="line">    <span class="keyword">if</span> (fd &lt; <span class="number">0</span>) &#123;</div><div class="line">        <span class="keyword">if</span> (errno == EACCES) &#123;</div><div class="line">            <span class="comment">/* for consistency with the case where the process has already</span></div><div class="line">             * mapped the page in and segfaults when trying to write to it</div><div class="line">             */</div><div class="line">            <span class="built_in">abort</span>();</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> <span class="number">-1</span>;</div><div class="line">    &#125;</div><div class="line">    <span class="comment">//将/dev/__properties__的大小设置为PA_SIZE,便于mmap</span></div><div class="line">    <span class="comment">//#define PA_SIZE         (128 * 1024)</span></div><div class="line">    <span class="keyword">if</span> (ftruncate(fd, PA_SIZE) &lt; <span class="number">0</span>) &#123;</div><div class="line">        close(fd);</div><div class="line">        <span class="keyword">return</span> <span class="number">-1</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    pa_size = PA_SIZE;</div><div class="line">    pa_data_size = pa_size - <span class="keyword">sizeof</span>(prop_area);</div><div class="line">    compat_mode = <span class="literal">false</span>;</div><div class="line">    <span class="comment">//创建一块共享内存</span></div><div class="line">    <span class="keyword">void</span> *<span class="keyword">const</span> memory_area = mmap(<span class="literal">NULL</span>, pa_size, PROT_READ | PROT_WRITE, MAP_SHARED, fd, <span class="number">0</span>);</div><div class="line">    <span class="keyword">if</span> (memory_area == MAP_FAILED) &#123;</div><div class="line">        close(fd);</div><div class="line">        <span class="keyword">return</span> <span class="number">-1</span>;</div><div class="line">    &#125;</div><div class="line">    <span class="comment">//创建一个prop_area的对象，对象的处于上面mmap出来的共享内存当中。</span></div><div class="line">    prop_area *pa = <span class="keyword">new</span>(memory_area) prop_area(PROP_AREA_MAGIC, PROP_AREA_VERSION);</div><div class="line"></div><div class="line">    <span class="comment">/* plug into the lib property services */</span></div><div class="line">    __system_property_area__ = pa;</div><div class="line"></div><div class="line">    close(fd);</div><div class="line">    <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<ul>
+<li>property_set<br>设置一个属性值，即往初始化好的属性区域写数据。代码分析：</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div></pre></td><td class="code"><pre><div class="line">//这只是个接口，真正的实现在一个static方法property_set_impl中，接口和实现分开</div><div class="line">int property_set(const char* name, const char* value) &#123;</div><div class="line">    int rc = property_set_impl(name, value);</div><div class="line">    if (rc == -1) &#123;</div><div class="line">        ERROR(&quot;property_set(\&quot;%s\&quot;, \&quot;%s\&quot;) failed\n&quot;, name, value);</div><div class="line">    &#125;</div><div class="line">    return rc;</div><div class="line">&#125;</div><div class="line">static int property_set_impl(const char* name, const char* value) &#123;</div><div class="line">    size_t namelen = strlen(name);</div><div class="line">    size_t valuelen = strlen(value);</div><div class="line"></div><div class="line">    //属性名字的合法性进行判断，如长度，是否有特殊字符等</div><div class="line">    if (!is_legal_property_name(name, namelen)) return -1;</div><div class="line">    if (valuelen &gt;= PROP_VALUE_MAX) return -1;</div><div class="line"></div><div class="line">    //判断属性是否和selinux相关，并采取相关操作，详见selinux章节</div><div class="line">    if (strcmp(&quot;selinux.reload_policy&quot;, name) == 0 &amp;&amp; strcmp(&quot;1&quot;, value) == 0) &#123;</div><div class="line">        if (selinux_reload_policy() != 0) &#123;</div><div class="line">            ERROR(&quot;Failed to reload policy\n&quot;);</div><div class="line">        &#125;</div><div class="line">    &#125; else if (strcmp(&quot;selinux.restorecon_recursive&quot;, name) == 0 &amp;&amp; valuelen &gt; 0) &#123;</div><div class="line">        if (restorecon_recursive(value) != 0) &#123;</div><div class="line">            ERROR(&quot;Failed to restorecon_recursive %s\n&quot;, value);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    prop_info* pi = (prop_info*) __system_property_find(name);</div><div class="line"></div><div class="line">    if(pi != 0) &#123;</div><div class="line">        /* ro.* properties may NEVER be modified once set */</div><div class="line">        if(!strncmp(name, &quot;ro.&quot;, 3)) return -1;</div><div class="line"></div><div class="line">        __system_property_update(pi, value, valuelen);</div><div class="line">    &#125; else &#123;</div><div class="line">        int rc = __system_property_add(name, namelen, value, valuelen);</div><div class="line">        if (rc &lt; 0) &#123;</div><div class="line">            return rc;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    /* If name starts with &quot;net.&quot; treat as a DNS property. */</div><div class="line">    if (strncmp(&quot;net.&quot;, name, strlen(&quot;net.&quot;)) == 0)  &#123;</div><div class="line">        if (strcmp(&quot;net.change&quot;, name) == 0) &#123;</div><div class="line">            return 0;</div><div class="line">        &#125;</div><div class="line">       /*</div><div class="line">        * The &apos;net.change&apos; property is a special property used track when any</div><div class="line">        * &apos;net.*&apos; property name is updated. It is _ONLY_ updated here. Its value</div><div class="line">        * contains the last updated &apos;net.*&apos; property.</div><div class="line">        */</div><div class="line">        property_set(&quot;net.change&quot;, name);</div><div class="line">    &#125; else if (persistent_properties_loaded &amp;&amp;</div><div class="line">            strncmp(&quot;persist.&quot;, name, strlen(&quot;persist.&quot;)) == 0) &#123;</div><div class="line">        /*</div><div class="line">         * Don&apos;t write properties to disk until after we have read all default properties</div><div class="line">         * to prevent them from being overwritten by default values.</div><div class="line">         */</div><div class="line">        write_persistent_property(name, value);</div><div class="line">    &#125;</div><div class="line">    property_changed(name, value);</div><div class="line">    return 0;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/android/" rel="tag"># android</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/11/23/android/常用类/atomic类/" rel="next" title="atomic类">
+                <i class="fa fa-chevron-left"></i> atomic类
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview sidebar-panel sidebar-panel-active">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="John Doe" />
+          <p class="site-author-name" itemprop="name">John Doe</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">8</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+</body>
+</html>

@@ -1,0 +1,672 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="android," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="#概述
+属性（property）系统对Android来说是一个重要的功能。他作为一个系统服务管理着系统的配置和状态，所有的这些系统配置和状态都是属性 （property）。属性（property）是一对键/值（key/value）组合，键和值都是字符串类型。总体感觉属性系统非常像Windows的注册表的功能。Android中非常多的应用程序和库直接或者间接的依赖于属性系统，并由此决定其运行期的行为">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Property概述">
+<meta property="og:url" content="http://yoursite.com/2016/11/23/android/Property/Property概述/index.html">
+<meta property="og:site_name" content="Hexo123">
+<meta property="og:description" content="#概述
+属性（property）系统对Android来说是一个重要的功能。他作为一个系统服务管理着系统的配置和状态，所有的这些系统配置和状态都是属性 （property）。属性（property）是一对键/值（key/value）组合，键和值都是字符串类型。总体感觉属性系统非常像Windows的注册表的功能。Android中非常多的应用程序和库直接或者间接的依赖于属性系统，并由此决定其运行期的行为">
+<meta property="og:image" content="http://yoursite.com/../../../images/00-57-09.jpg">
+<meta property="og:image" content="http://yoursite.com/images/00-57-09.jpg">
+<meta property="og:image" content="http://yoursite.com/../../../images/01-06-04.jpg">
+<meta property="og:image" content="http://yoursite.com/images/01-06-04.jpg">
+<meta property="og:updated_time" content="2016-11-24T18:18:25.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Property概述">
+<meta name="twitter:description" content="#概述
+属性（property）系统对Android来说是一个重要的功能。他作为一个系统服务管理着系统的配置和状态，所有的这些系统配置和状态都是属性 （property）。属性（property）是一对键/值（key/value）组合，键和值都是字符串类型。总体感觉属性系统非常像Windows的注册表的功能。Android中非常多的应用程序和库直接或者间接的依赖于属性系统，并由此决定其运行期的行为">
+<meta name="twitter:image" content="http://yoursite.com/../../../images/00-57-09.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2016/11/23/android/Property/Property概述/"/>
+
+
+
+
+
+  <title> Property概述 | Hexo123 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Hexo123</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/11/23/android/Property/Property概述/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="John Doe">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.gif">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Hexo123">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Hexo123" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Property概述
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-11-23T15:57:00+08:00">
+                2016-11-23
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/android/" itemprop="url" rel="index">
+                    <span itemprop="name">android</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/android/property/" itemprop="url" rel="index">
+                    <span itemprop="name">property</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>#概述</p>
+<p>属性（property）系统对Android来说是一个重要的功能。他作为一个系统服务管理着系统的配置和状态，所有的这些系统配置和状态都是属性 （property）。属性（property）是一对键/值（key/value）组合，键和值都是字符串类型。<br>总体感觉属性系统非常像Windows的注册表的功能。Android中非常多的应用程序和库直接或者间接的依赖于属性系统，并由此决定其运行期的行为。例如：adbd进程通过属性来决定是否当 前运行在模拟器中。再比如：java.io.File.pathSeparator方法返回存储在属性服务中的值。<br><br><br><br></p>
+<p>#属性系统怎样工作<br>属性系统宏观的结构图如下所示：<br><img src="../../../images/00-57-09.jpg" alt=""><br><img src="images/00-57-09.jpg" alt=""></p>
+<p>从图中我们可以看出Android属性系统由有三个进程，一组属性文件和一块共享内存组成。这块共享内存保存着系统中所有的属性记录，只有 Property service能写这块共享内存，并且Property service负责将属性文件中的属性记录加载到共享内存中。</p>
+<p>属性读取进程（property consumer）把这块共享内存映射到自己的进程空间，然后直接读取它。属性设置进程（property setter）也加载这块共享到他的进程空间，但是他不能直接写这块共享内存。当他需要增加或者修改属性的时候，通过Unix Socket发生属性给Property service，Property service将代表设置进程写入共享内存和属性文件。</p>
+<p>Property service运行于init进程中。init进程首先创建一块共享内存，并把他的句柄fd存放在这块内存中，init进程通过mmap带 MAP_SHARE标志的系统调用，把这块内存映射到他的虚拟空间中，最终这块内存所有的更新将会被所有映射这块共享内存的进程看到。共享内存句柄fd和 共享内存大小存储在系统环境变量“ANDROID_PROPERTY_WORKSPACE”中，所有的进程包括属性设置进程和属性读取进程都将通过这个系 统环境变量获得共享内存的句柄fd和大小，然后把这块内存映射到他们自己的虚拟空间。共享内存布局如下：</p>
+<p><img src="../../../images/01-06-04.jpg" alt=""><br><img src="images/01-06-04.jpg" alt=""></p>
+<p>然后，init进程将会从以下文件中加载属性：<br>&gt;<br>1   /default.prop<br>2   /system/build.prop<br>3   /system/default.prop<br>4   /data/local.prop</p>
+<p>下一步是启动Property service。这步中，将会创建一个Unix Socket服务器，这个Socket有一个闻名的名称“/dev/socket/property_service”。最后init进入死循环，等待socket的连接请求。</p>
+<p>在读取进程中，当它初始化libc库的时候，将会获得属性系统共享内存的句柄和大小（bionic/libc/bionic /libc_init_common.c <strong>libc_init_common函数）。并把这块共享内存映射到自己的进程虚拟空间中(bionic/libc/bionic /system_properties.c </strong>system_properties_init函数)。这样读取进程将会向访问普通内存一样访问属性系统的共享内存了。</p>
+<p>当前，属性不能被删除。也就是说一旦属性被创建，将不可以被删除，但是它们可以被修改。<br><br><br><br></p>
+<p>#怎样获得和设置属性</p>
+<p>在Android中有三种方式来设置和获取属性：</p>
+<ul>
+<li><p>native code<br>当编写Native的程序时，可以使用property_get和property_set API来获得和设置属性。使用这两个API必须要包含头文件cutils/properties.h和链接libcutil库。<br><br></p>
+</li>
+<li><p>java code<br>Android在Java库中提供System.getProperty和System.setProperty方法，我们Java程序可以通过他们来设置和获得属性。<br>但是请注意！虽然从语法上面看Java的代码和Native代码非常相近，但是Java版本存储把属性存在其他地方，而不是我们上面提到的属性系统中。在 JVM中有一个hash表来维护Java的属性。所以Java属性和Android属性是不同的，不能用Java API（System.getProperty和System.setProperty）来设置系统属性。也不能通过Native的方法 （property_get和property_set）设置Java的属性。<br>更新：Andrew指出android.os.SystemProperties可以操作Android系统属性（虽然这个类倾向于内部使用）。这个类通过JNI调用Native的property_get和property_set方法来获得和设置属性。<br><br></p>
+</li>
+<li><p>shell script Shell脚本<br>getprop [keyname] Keyname为需要获取的键值名，如果没有参数则打印全部的键值信息。<br>setprop [keyname] [value] Keyname为需要获取的键值名，value为设置的值，这个值为字符串。<br>watchprops 监听系统属性的变化，如果期间系统的属性发生变化则把变化的值显示出来。<br><br><br><br></p>
+</li>
+</ul>
+<p>#Android 系统的配置信息</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/android/" rel="tag"># android</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/11/23/android/Init/Init简介/" rel="next" title="Init简介">
+                <i class="fa fa-chevron-left"></i> Init简介
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/11/23/android/Selinux/Seliux简介/" rel="prev" title="Seliux简介">
+                Seliux简介 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview sidebar-panel sidebar-panel-active">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="John Doe" />
+          <p class="site-author-name" itemprop="name">John Doe</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">8</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+</body>
+</html>
